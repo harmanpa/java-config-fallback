@@ -18,7 +18,7 @@ public class SecretsManagerTest {
     public void shouldReturnSecretWhenItDoesExist() {
         AWSSecretsManager awsMockClient = storeSecret("{\"foo\": \"bar\"}");
 
-        SecretsManager secretsManager = new SecretsManager("secret-name", "eu-west-1", awsMockClient);
+        SecretsManagerAWS secretsManager = new SecretsManagerAWS("secret-name", "eu-west-1", awsMockClient);
 
         assertThat(secretsManager.get("foo"), is("bar"));
     }
@@ -27,7 +27,7 @@ public class SecretsManagerTest {
     public void shouldNotReturnSecretIfContentsArePlaintext() {
         AWSSecretsManager awsMockClient = storeSecret("this is not JSON");
 
-        SecretsManager secretsManager = new SecretsManager("secret-name", "eu-west-1", awsMockClient);
+        SecretsManagerAWS secretsManager = new SecretsManagerAWS("secret-name", "eu-west-1", awsMockClient);
 
         assertThat(secretsManager.get("user"), is(nullValue()));
     }
@@ -36,7 +36,7 @@ public class SecretsManagerTest {
     public void shouldNotMakeMoreThanOneRequestToAWSForASecret() {
         AWSSecretsManager awsMockClient = storeSecret("{\"foo\": \"bar\"}");
 
-        SecretsManager secretsManager = new SecretsManager("secret-name", "eu-west-1", awsMockClient);
+        SecretsManagerAWS secretsManager = new SecretsManagerAWS("secret-name", "eu-west-1", awsMockClient);
 
         secretsManager.get("user");
         secretsManager.get("user");
@@ -50,10 +50,10 @@ public class SecretsManagerTest {
         AWSSecretsManager awsMockClient = mock(AWSSecretsManager.class);
 
         when(awsMockClient.getSecretValue(any(GetSecretValueRequest.class))).thenThrow(
-            new ResourceNotFoundException("Nothing here")
+                new ResourceNotFoundException("Nothing here")
         );
 
-        SecretsManager secretsManager = new SecretsManager("secret-name", "eu-west-1", awsMockClient);
+        SecretsManagerAWS secretsManager = new SecretsManagerAWS("secret-name", "eu-west-1", awsMockClient);
 
         assertThat(secretsManager.get("user"), is(nullValue()));
     }

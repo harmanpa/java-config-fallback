@@ -13,22 +13,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class SecretsManager implements ConfigurationSource {
+public class SecretsManagerAWS implements ConfigurationSource {
 
     private final String secretName;
     private final String region;
     private final Optional<AWSSecretsManager> client;
     private Map<String, String> credentials;
 
-    public SecretsManager(String secretName, String region) {
+    public SecretsManagerAWS(String secretName, String region) {
         this(secretName, region, Optional.empty());
     }
 
-    public SecretsManager(String secretName, String region, AWSSecretsManager client) {
+    public SecretsManagerAWS(String secretName, String region, AWSSecretsManager client) {
         this(secretName, region, Optional.of(client));
     }
 
-    private SecretsManager(String secretName, String region, Optional<AWSSecretsManager> client) {
+    private SecretsManagerAWS(String secretName, String region, Optional<AWSSecretsManager> client) {
         this.secretName = secretName;
         this.region = region;
         this.client = client;

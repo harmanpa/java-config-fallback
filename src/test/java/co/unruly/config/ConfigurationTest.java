@@ -102,8 +102,8 @@ public class ConfigurationTest {
     @Test
     public void shouldFallBackToNextConfigurationSource_SecretsManager() {
         Configuration config = Configuration.of(
-                secretsManager("my-secret-1", "eu-west-1", storeSecret("not actually JSON")),
-                secretsManager("my-secret-2", "eu-west-1", storeSecret("{\"my-key\":\"my-value\"}"))
+                secretsManagerAWS("my-secret-1", "eu-west-1", storeSecret("not actually JSON")),
+                secretsManagerAWS("my-secret-2", "eu-west-1", storeSecret("{\"my-key\":\"my-value\"}"))
         );
 
         assertThat(config.get("my-key"), contains("my-value"));
@@ -158,7 +158,7 @@ public class ConfigurationTest {
         AWSSecretsManager awsMockClient = storeSecret("");
 
         Configuration config = Configuration.of(
-                secretsManager("some_secret_that_does_not_exist", "eu-west-1", awsMockClient)
+                secretsManagerAWS("some_secret_that_does_not_exist", "eu-west-1", awsMockClient)
         );
 
         assertThat(config.get("user"), is(empty()));

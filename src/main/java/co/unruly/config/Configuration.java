@@ -73,12 +73,16 @@ public class Configuration {
         return (key) -> System.getenv(key.toUpperCase());
     }
 
-    public static ConfigurationSource secretsManager(String secretName, String region) {
-        return new SecretsManager(secretName, region)::get;
+    public static ConfigurationSource secretsManagerAWS(String secretName, String region) {
+        return new SecretsManagerAWS(secretName, region)::get;
     }
 
-    public static ConfigurationSource secretsManager(String secretName, String region, AWSSecretsManager client) {
-         return new SecretsManager(secretName, region, client)::get;
+    public static ConfigurationSource secretsManagerAWS(String secretName, String region, AWSSecretsManager client) {
+         return new SecretsManagerAWS(secretName, region, client)::get;
+    }
+    
+    public static ConfigurationSource secretsManagerGCE() throws IOException {
+        return new SecretsManagerGCE();
     }
 }
 

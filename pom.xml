@@ -24,7 +24,7 @@
         <java-8-matchers.version>1.5</java-8-matchers.version>
         <hamcrest.version>1.3</hamcrest.version>
         <mockito.version>2.18.0</mockito.version>
-        <secretsmanager.version>1.11.407</secretsmanager.version>
+        <secretsmanager.version>1.11.699</secretsmanager.version>
     </properties>
 
     <developers>
@@ -87,6 +87,12 @@
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-secretsmanager</artifactId>
             <version>${secretsmanager.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.google.cloud</groupId>
+            <artifactId>google-cloud-secretmanager</artifactId>
+            <version>1.0.1</version>
         </dependency>
 
         <dependency>
