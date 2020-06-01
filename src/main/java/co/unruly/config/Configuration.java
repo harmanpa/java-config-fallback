@@ -38,6 +38,14 @@ public class Configuration {
     public Configuration or(ConfigurationSource next) {
         return new Configuration(this.func.or(next));
     }
+    
+    public Configuration prefixed(String prefix) {
+        return new Configuration((key) -> this.func.get(prefix==null ? key : prefix + "." + key)).or(this.func);
+    }
+    
+    public Configuration chained(ConfigurationSource keySource) {
+        return new Configuration((key) -> Optional.ofNullable(keySource.get(key)).map((newKey) -> this.func.get(newKey)).orElse(null));
+    }
 
     public static Configuration from(ConfigurationSource func) {
         return new Configuration(func);
@@ -84,5 +92,6 @@ public class Configuration {
     public static ConfigurationSource secretsManagerGCE() throws IOException {
         return new SecretsManagerGCE();
     }
+    
 }
 
